@@ -2,7 +2,8 @@
 
 `mha4rdb` is kind of Master High Availability for Relational Databases(e.g. Vastbase、Mysql、Postgresql、...)
 
-Detailed design and architecture could be found at [架构设计 / Architecture Design Document](docs/architecture.md)
+* Here RDB is Vastbase for example
+* Detailed design and architecture could be found at [架构设计 / Architecture Design Document](docs/architecture.md)
 
 ## 1. Project Introduction
 
