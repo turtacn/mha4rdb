@@ -4,7 +4,6 @@
 
 * Here RDB is Vastbase for example
 * Here common service is IaaS, to take HCI for example
-* Detailed design and architecture could be found at [架构设计 / Architecture Design Document](docs/architecture.md)
 
 ## 1. Project Introduction
 
@@ -31,7 +30,7 @@ The core components of the `mha4rdb` system include:
 * **Virtual IP**: Provides a unified access point.
 * **HCI Service**: The control plane of the HCI infrastructure software, accessing the database via the VIP and interacting with the Agents via the MHA Client library to obtain status.
 
-For a more detailed architecture design, please refer to the [Architecture Design Document](https://www.google.com/search?q=docs/architecture.md).
+For a more detailed architecture design, please refer to the [架构设计 / Architecture Design Document](docs/architecture.md).
 
 ## 4. Deployment Modes
 
@@ -54,14 +53,14 @@ For a more detailed architecture design, please refer to the [Architecture Desig
 
 ```bash
 # Clone the repository
-git clone [https://github.com/turtacn/mha4rdb.git](https://github.com/turtacn/mha4rdb.git)
+git clone https://github.com/turtacn/mha4rdb.git
 cd mha4rdb
 
 # Build the MHA Agent
 go build -o bin/mha-agent cmd/agent/main.go
 
 # Build the MHA Client library (to be used as a Go module dependency, no separate executable needed)
-# go get [github.com/turtacn/mha4rdb/pkg/client](https://github.com/turtacn/mha4rdb/pkg/client)
+# go get https://github.com/turtacn/mha4rdb/pkg/client
 ````
 
 ### 5.3 Configuration
