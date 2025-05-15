@@ -242,6 +242,6 @@ VIP管理是实现服务接入高可用的关键。
 
 ## 11\. 参考资料 (References)
 
-[1] MySQL Group Replication: https://dev.mysql.com/doc/refman/8.0/en/group-replication.html
-[2] PostgreSQL Patroni: https://patroni.readthedocs.io/en/latest/
-[3] MySQL MHA (Master High Availability): https://github.com/yoshinorim/mha4mysql
+- [1] MySQL Group Replication: https://dev.mysql.com/doc/refman/8.0/en/group-replication.html
+- [2] PostgreSQL Patroni: https://patroni.readthedocs.io/en/latest/
+- [3] MySQL MHA (Master High Availability): https://github.com/yoshinorim/mha4mysql
