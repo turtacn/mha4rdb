@@ -176,4 +176,5 @@ mha4rdb/
 ## 10\. References
   * [MySQL Group Replication](https://dev.mysql.com/doc/refman/8.0/en/group-replication.html)
   * [PostgreSQL Patroni](https://patroni.readthedocs.io/en/latest/)
-  * [MySQL MHA (Master High Availability)](https://github.com/yoshinorim/mha4mysql)
+  * [Development tree of Master High Availability Manager and tools for MySQL (MHA), Manager part](https://github.com/yoshinorim/mha4mysql-manager)
+  * [Development tree of Master High Availability Manager and tools for MySQL (MHA), Node (MySQL Server) part](https://github.com/yoshinorim/mha4mysql-node)
