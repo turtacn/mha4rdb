@@ -55,7 +55,7 @@ mha4rdb采用分层架构设计，将系统分为多个独立但相互协作的�
 
 MHA Agent是mha4rdb的核心组件，部署在每个数据库节点上，负责监控和管理本地数据库实例，以及参与Raft集群的选举和管理。
 
-<img src="images/d-mha-agent.png" width="50%"/>
+<img src="images/d-mha-agent.png" width="70%"/>
 
 MHA Agent的核心模块包括：
 1. Raft模块：实现Raft一致性算法，负责Leader选举和日志复制
@@ -89,7 +89,7 @@ MHA Client的核心模块包括：
 
 虚拟IP（VIP）是为HCI服务提供统一访问入口的关键组件。
 
-<img src="images/d-mha-vip.png" width="50%"/>
+<img src="images/d-mha-vip.png" width="100%"/>
 
 VIP管理的核心模块包括：
 1. VIP分配服务：将VIP分配给当前的Leader节点
