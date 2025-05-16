@@ -30,7 +30,10 @@ The core components of the `mha4rdb` system include:
 * **Virtual IP**: Provides a unified access point.
 * **HCI Service**: The control plane of the HCI infrastructure software, accessing the database via the VIP and interacting with the Agents via the MHA Client library to obtain status.
 
-For a more detailed architecture design, please refer to the [架构设计 / Architecture Design Document](docs/architecture.md).
+For a detailed architecture design, please refer to the [架构设计 / Architecture Design Document](docs/architecture.md).
+
+For a more detailed architecture and more designs, please refer to the [详细设计](docs/design.md).
+
 
 ## 4. Deployment Modes
 
