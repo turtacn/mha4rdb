@@ -99,7 +99,7 @@ mha4rdb/
 │   └── proto/
 │       └── v1/
 │           ├── mha.proto
-│           ├── mha\_grpc.pb.go
+│           ├── mha_grpc.pb.go
 │           └── mha.pb.go
 ├── cmd/
 │   └── mha4rdb-agent/
@@ -119,13 +119,13 @@ mha4rdb/
 │   │   ├── monitor/
 │   │   │   └── monitor.go
 │   │   ├── raft/
-│   │   │   ├── raft\_ FSM.go
-│   │   │   ├── raft\_node.go
+│   │   │   ├── raft_ FSM.go
+│   │   │   ├── raft_node.go
 │   │   │   └── transport.go
 │   │   ├── rpc/
 │   │   │   └── server.go
 │   │   └── service/  // Implements gRPC services defined in api/proto
-│   │       └── mha\_service.go
+│   │       └── mha_service.go
 │   ├── client/
 │   │   ├── client.go
 │   │   └── options.go
@@ -146,7 +146,7 @@ mha4rdb/
 │   ├── logger/
 │   │   ├── iface/
 │   │   │   └── logger.go
-│   │   └── zerolog\_adapter/ // Example implementation
+│   │   └── zerolog_adapter/ // Example implementation
 │   │       └── logger.go
 │   ├── network/
 │   │   ├── vip/
@@ -161,7 +161,7 @@ mha4rdb/
 │   └── signal/
 │       └── signal.go
 ├── scripts/
-│   ├── run\_tests.sh
+│   ├── run_tests.sh
 │   └── build.sh
 ├── test/
 │   ├── integration/
