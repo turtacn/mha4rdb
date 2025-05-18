@@ -98,81 +98,59 @@ This project is licensed under the [Apache 2.0 License](https://www.google.com/s
 
 ```text
 mha4rdb/
-├── api/
-│   └── proto/
-│       └── v1/
-│           ├── mha.proto
-│           ├── mha_grpc.pb.go
-│           └── mha.pb.go
-├── cmd/
-│   └── mha4rdb-agent/
-│       └── main.go
-├── configs/
-│   └── agent.example.yaml
-├── docs/
-│   └── architecture.md
-├── internal/
-│   ├── agent/
-│   │   ├── agent.go
-│   │   ├── config.go
-│   │   ├── election/
-│   │   │   └── manager.go
-│   │   ├── health/
-│   │   │   └── checker.go
-│   │   ├── monitor/
-│   │   │   └── monitor.go
-│   │   ├── raft/
-│   │   │   ├── raft_ FSM.go
-│   │   │   ├── raft_node.go
-│   │   │   └── transport.go
-│   │   ├── rpc/
-│   │   │   └── server.go
-│   │   └── service/  // Implements gRPC services defined in api/proto
-│   │       └── mha_service.go
-│   ├── client/
-│   │   ├── client.go
-│   │   └── options.go
-│   ├── core/
-│   │   ├── cluster/
-│   │   │   └── state.go
-│   │   └── types/
-│   │       ├── common.go
-│   │       └── enum.go
-│   ├── database/
-│   │   ├── iface/
-│   │   │   └── db.go
-│   │   └── vastbase/
-│   │       ├── vastbase.go
-│   │       └── config.go
-│   ├── errors/
-│   │   └── errors.go
-│   ├── logger/
-│   │   ├── iface/
-│   │   │   └── logger.go
-│   │   └── zerolog_adapter/ // Example implementation
-│   │       └── logger.go
-│   ├── network/
-│   │   ├── vip/
-│   │   │   └── manager.go
-│   │   └── iface/
-│   │       └── vip.go
-│   ├── utils/
-│   │   └── utils.go
-│   └── version/
-│       └── version.go
-├── pkg/ // Potentially for public libraries if any part of client becomes one
-│   └── signal/
-│       └── signal.go
-├── scripts/
-│   ├── run_tests.sh
-│   └── build.sh
-├── test/
-│   ├── integration/
-│   └── e2e/
-├── .gitignore
-├── go.mod
-├── go.sum
-└── README.md
+├── cmd/                                # 命令行入口
+│   ├── mha-agent/                      # MHA Agent命令行
+│   ├── mha-manager/                    # MHA Manager命令行
+│   └── mha-cli/                        # MHA CLI工具命令行
+├── docs/                               # 文档
+│   ├── architecture.md                 # 架构文档
+│   ├── deployment.md                   # 部署文档
+│   └── api.md                          # API文档
+├── examples/                           # 示例
+│   ├── client/                         # 客户端示例
+│   ├── config/                         # 配置示例
+│   └── scripts/                        # 脚本示例
+├── internal/                           # 内部包
+│   ├── common/                         # 通用代码
+│   │   ├── constants/                  # 常量定义
+│   │   ├── errors/                     # 错误定义
+│   │   ├── logging/                    # 日志
+│   │   ├── metrics/                    # 指标
+│   │   └── utils/                      # 工具函数
+│   ├── agent/                          # Agent实现
+│   │   ├── server/                     # Agent服务
+│   │   ├── monitor/                    # 监控实现
+│   │   ├── vip/                        # VIP管理
+│   │   └── handlers/                   # 请求处理
+│   ├── manager/                        # Manager实现
+│   │   ├── server/                     # Manager服务
+│   │   ├── cluster/                    # 集群管理
+│   │   ├── election/                   # 选举管理
+│   │   └── handlers/                   # 请求处理
+│   └── db/                             # 数据库适配
+│       ├── mysql/                      # MySQL适配
+│       ├── postgresql/                 # PostgreSQL适配
+│       └── vastbase/                   # Vastbase适配
+├── pkg/                                # 公共包
+│   ├── api/                            # API定义
+│   │   ├── client/                     # 客户端API
+│   │   ├── agent/                      # Agent API
+│   │   └── manager/                    # Manager API
+│   ├── config/                         # 配置
+│   ├── client/                         # 客户端实现
+│   ├── raft/                           # Raft实现
+│   ├── db/                             # 数据库接口
+│   └── models/                         # 数据模型
+├── test/                               # 测试
+│   ├── integration/                    # 集成测试
+│   ├── benchmark/                      # 基准测试
+│   └── utils/                          # 测试工具
+├── scripts/                            # 脚本工具
+│   ├── install/                        # 安装脚本
+│   ├── build/                          # 构建脚本
+│   └── ci/                             # CI脚本
+├── Makefile                            # 构建规则
+├── go.mod                              # Go模块定义
 
 ```
 
