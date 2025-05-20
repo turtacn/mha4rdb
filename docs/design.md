@@ -2,11 +2,11 @@
 
 ## 1. 项目概述
 
-mha4rdb（Master High Availability for Relational Database）是一个基于Go语言的开源项目，旨在为关系型数据库（如MySQL、PostgreSQL、OpenGaussDB和Vastbase等）提供高可用性管理解决方案。该项目借鉴了MySQL MHA、PostgreSQL Patroni等成熟开源项目的设计理念，同时结合了Raft一致性算法，为HCI（超融合基础设施）场景下的数据库集群提供了简单、可靠、自动化的高可用性管理工具。
+mha4rdb（Master High Availability for Relational Database）是一个基于Go语言的开源项目，旨在为关系型数据库（如MySQL、PostgreSQL、OpenGaussDB和Vastbase等）提供高可用性管理解决方案。该项目借鉴了MySQL MHA、PostgreSQL Patroni等成熟开源项目的设计理念，同时结合了Raft一致性算法，为基础设施（超融合基础设施）场景下的数据库集群提供了简单、可靠、自动化的高可用性管理工具。
 
 ### 1.1 设计背景与目标
 
-在HCI场景中，配置信息的事务性持久化和一致性至关重要。与通用OLTP数据库相比，HCI场景对数据一致性的要求更高，而对极致读写性能的要求相对较低。mha4rdb项目针对这一特点，设计了从单机部署到多机集群的演进路径，并通过Raft一致性算法保证数据的高可用和一致性。
+在基础设施场景中，配置信息的事务性持久化和一致性至关重要。与通用OLTP数据库相比，基础设施场景对数据一致性的要求更高，而对极致读写性能的要求相对较低。mha4rdb项目针对这一特点，设计了从单机部署到多机集群的演进路径，并通过Raft一致性算法保证数据的高可用和一致性。
 
 ### 1.2 核心功能
 
@@ -15,7 +15,7 @@ mha4rdb（Master High Availability for Relational Database）是一个基于Go�
 - 自动故障检测与恢复
 - 自动Leader选举与切换
 - 虚拟IP（VIP）管理，提供统一访问入口
-- 与HCI服务的良好集成
+- 与基础设施服务的良好集成
 - 全面的监控与告警机制
 
 ## 2. 系统架构
@@ -26,7 +26,7 @@ mha4rdb采用分层架构设计，将系统分为多个独立但相互协作的�
 
 <img src="images/d-architecture.png" width="100%"/>
 
-上图展示了mha4rdb的整体架构。HCI服务通过MHA客户端与MHA集群交互，MHA集群由多个MHA代理和可选的仲裁服务组成。MHA代理负责监控和管理各自的数据库实例，并通过Raft协议实现Leader选举和一致性。虚拟IP（VIP）为HCI服务提供了统一的访问入口，始终指向当前的Leader节点。
+上图展示了mha4rdb的整体架构。基础设施服务通过MHA客户端与MHA集群交互，MHA集群由多个MHA代理和可选的仲裁服务组成。MHA代理负责监控和管理各自的数据库实例，并通过Raft协议实现Leader选举和一致性。虚拟IP（VIP）为基础设施服务提供了统一的访问入口，始终指向当前的Leader节点。
 
 ### 2.2 部署架构图
 
@@ -65,7 +65,7 @@ MHA Agent的核心模块包括：
 
 ### 3.2 MHA Client
 
-MHA Client是HCI服务集成的客户端库，提供与MHA集群交互的接口。
+MHA Client是基础设施服务集成的客户端库，提供与MHA集群交互的接口。
 
 <img src="images/d-mha-client.png" width="50%"/>
 
@@ -87,7 +87,7 @@ MHA Client的核心模块包括：
 
 ### 3.4 虚拟IP管理
 
-虚拟IP（VIP）是为HCI服务提供统一访问入口的关键组件。
+虚拟IP（VIP）是为基础设施服务提供统一访问入口的关键组件。
 
 <img src="images/d-mha-vip.png" width="100%"/>
 
@@ -114,13 +114,13 @@ VIP管理的核心模块包括：
 
 <img src="images/d-mha-boot.png" width="100%"/>
 
-上图展示了mha4rdb的启动流程，包括初始化连接、健康检查、Raft选举、VIP配置、HCI连接和MHA Client初始化等步骤。
+上图展示了mha4rdb的启动流程，包括初始化连接、健康检查、Raft选举、VIP配置、基础设施连接和MHA Client初始化等步骤。
 
 ### 4.2 故障检测与恢复流程
 
 <img src="images/d-failover.png" width="100%"/>
 
-上图展示了mha4rdb的故障检测与恢复流程，包括故障检测、Raft重新选举、VIP迁移、HCI重新连接和故障恢复等步骤。
+上图展示了mha4rdb的故障检测与恢复流程，包括故障检测、Raft重新选举、VIP迁移、基础设施重新连接和故障恢复等步骤。
 
 ### 4.3 手动切换流程
 

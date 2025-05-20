@@ -2,7 +2,7 @@
 
 ## 1. 引言 (Introduction)
 
-mha4rdb (Master High Availability for Relational Databases) 是一个旨在为关系型数据库提供高可用性解决方案的开源项目，初期重点支持Vastbase数据库。本项目主要面向超融合基础设施（HCI - Hyper-Converged Infrastructure）场景，解决其对配置信息持久化和一致性的核心需求。HCI场景对数据一致性的要求极高，同时追求部署和管理的简单性。mha4rdb借鉴了现有成熟方案（如MHA4MySQL [3], Patroni [2], MySQL Group Replication [1]），并结合HCI的特性，采用基于Raft一致性算法的分布式数据库集群和虚拟IP（VIP）漂移技术，提供一个简单、可靠、自动化的数据库高可用方案。
+mha4rdb (Master High Availability for Relational Databases) 是一个旨在为关系型数据库提供高可用性解决方案的开源项目，初期重点支持Vastbase数据库。本项目主要面向超融合基础设施（基础设施 - Hyper-Converged Infrastructure）场景，解决其对配置信息持久化和一致性的核心需求。基础设施场景对数据一致性的要求极高，同时追求部署和管理的简单性。mha4rdb借鉴了现有成熟方案（如MHA4MySQL [3], Patroni [2], MySQL Group Replication [1]），并结合基础设施的特性，采用基于Raft一致性算法的分布式数据库集群和虚拟IP（VIP）漂移技术，提供一个简单、可靠、自动化的数据库高可用方案。
 
 本文档详细阐述mha4rdb的总体架构设计、核心组件、模块交互、部署模型以及关键技术决策。
 
@@ -11,7 +11,7 @@ mha4rdb (Master High Availability for Relational Databases) 是一个旨在为�
 mha4rdb项目遵循以下核心设计原则：
 
 * **分层与模块化设计 (Layered & Modular Design):** 清晰的层次结构，模块高内聚、低耦合，易于独立开发、测试和替换。
-* **借鉴与创新 (Leverage & Innovate):** 吸收参考项目的优秀设计，并针对HCI场景进行优化创新。
+* **借鉴与创新 (Leverage & Innovate):** 吸收参考项目的优秀设计，并针对基础设施场景进行优化创新。
 * **端到端价值导向 (End-to-End Value Orientation):** 设计直接映射到用户价值，通过清晰的技术语言阐述需求。
 * **可测试性 (Testability):** 架构设计优先考虑单元测试、集成测试和端到端测试的便捷性。
 * **可观测性 (Observability):** 内建统一的日志、指标和追踪机制。
@@ -27,11 +27,11 @@ mha4rdb项目遵循以下核心设计原则：
 mha4rdb系统主要由以下组件构成：
 
 * **Vastbase 实例 (Vastbase Instance):** 数据库服务节点，负责数据的存储和管理，多个实例组成Raft集群。
-* **MHA Agent:** 部署在每个Vastbase节点上的代理程序，负责监控本地数据库状态、参与Raft集群管理、执行故障切换逻辑，并与HCI服务通信。
+* **MHA Agent:** 部署在每个Vastbase节点上的代理程序，负责监控本地数据库状态、参与Raft集群管理、执行故障切换逻辑，并与基础设施服务通信。
 * **仲裁服务 (Quorum/Witness Service - Arbiter):** （可选）在双机部署时引入，防止脑裂。在三节点及以上Raft集群中，其功能由Raft协议自身保证。
-* **虚拟IP (Virtual IP - VIP):** 对HCI服务提供统一的数据库访问入口，自动漂移到当前的Leader节点。
-* **HCI 服务 (HCI Service):** 超融合基础设施的控制平面，依赖mha4rdb进行配置数据的持久化。
-* **MHA Client Library:** 集成在HCI服务中的Go语言库，负责与MHA Agent集群进行通信，获取集群状态、Leader信息等。
+* **虚拟IP (Virtual IP - VIP):** 对基础设施服务提供统一的数据库访问入口，自动漂移到当前的Leader节点。
+* **基础设施 服务 (基础设施 Service):** 超融合基础设施的控制平面，依赖mha4rdb进行配置数据的持久化。
+* **MHA Client Library:** 集成在基础设施服务中的Go语言库，负责与MHA Agent集群进行通信，获取集群状态、Leader信息等。
 
 ### 3.2. 架构图 (Architecture Diagram)
 
@@ -39,11 +39,11 @@ mha4rdb系统主要由以下组件构成：
 
 <img src="images/architecture.png" width="100%"/>
 
-该架构图中，HCI服务通过MHA客户端库与MHA Agent集群进行通信，获取当前Leader信息，并通过虚拟IP连接到Leader数据库实例。MHA Agent之间通过Raft协议（或其封装）保证一致性，并监控各自的Vastbase实例。
+该架构图中，基础设施服务通过MHA客户端库与MHA Agent集群进行通信，获取当前Leader信息，并通过虚拟IP连接到Leader数据库实例。MHA Agent之间通过Raft协议（或其封装）保证一致性，并监控各自的Vastbase实例。
 
 ### 3.3. 部署模型 (Deployment Models)
 
-mha4rdb支持灵活的部署模式以适应不同的HCI环境需求：
+mha4rdb支持灵活的部署模式以适应不同的基础设施环境需求：
 
   * **单机模式 (Single Node Mode):**
 
@@ -69,7 +69,7 @@ mha4rdb支持灵活的部署模式以适应不同的HCI环境需求：
 
 <img src="images/deploy.png" width="100%"/>
 
-在此部署图中，HCI服务通过其集成的MHA客户端库与MHA Agent集群通信。虚拟IP（VIP）始终指向Raft集群的Leader节点（例如Vastbase实例A）。每个MHA Agent负责监控其本地Vastbase实例，并参与Raft集群的共识过程。
+在此部署图中，基础设施服务通过其集成的MHA客户端库与MHA Agent集群通信。虚拟IP（VIP）始终指向Raft集群的Leader节点（例如Vastbase实例A）。每个MHA Agent负责监控其本地Vastbase实例，并参与Raft集群的共识过程。
 
 ## 4\. 模块设计 (Module Design)
 
@@ -84,16 +84,16 @@ MHA Agent是部署在每个数据库节点上的核心组件，其主要职责�
   * **故障检测与切换 (Failure Detection & Switchover):** 检测Leader故障，触发新的Leader选举，并协调VIP的漂移。
   * **API服务 (API Service):** 提供gRPC接口供MHA Client查询状态、获取Leader信息，以及（有限的）管理操作。
   * **配置管理 (Configuration Management):** 管理本地Agent及相关数据库连接的配置。
-  * **状态上报 (Status Reporting):** 向HCI服务（通过MHA Client）上报数据库集群的健康状态和拓扑信息。
+  * **状态上报 (Status Reporting):** 向基础设施服务（通过MHA Client）上报数据库集群的健康状态和拓扑信息。
 
 ### 4.2. MHA Client Library
 
-MHA Client Library是一个嵌入到HCI服务中的Go语言库，其功能：
+MHA Client Library是一个嵌入到基础设施服务中的Go语言库，其功能：
 
   * **服务发现 (Service Discovery):** 发现MHA Agent集群中的节点。
   * **Leader查询 (Leader Query):** 获取当前数据库集群的Leader节点信息（IP、端口）。
   * **状态订阅 (Status Subscription):** 订阅数据库集群的状态变更事件（如Leader切换、节点增删）。
-  * **故障处理回调 (Failure Handling Callback):** 当检测到数据库Leader切换时，通知HCI服务更新其连接配置。
+  * **故障处理回调 (Failure Handling Callback):** 当检测到数据库Leader切换时，通知基础设施服务更新其连接配置。
   * **API封装 (API Abstraction):** 封装与MHA Agent的gRPC通信细节。
 
 ### 4.3. Vastbase MHA 接口 (Vastbase MHA Interface)
@@ -119,13 +119,13 @@ VIP管理是实现服务接入高可用的关键。
 
   * **机制 (Mechanism):** 通常通过ARP欺骗（ARP spoofing）、路由宣告或专用的VIP管理工具（如Keepalived的VRRP协议，或云平台的VIP服务）实现。
   * **触发 (Trigger):** 当MHA Agent集群选举出新的Leader后，由新Leader节点的MHA Agent或一个专门的协调者负责将VIP漂移到新Leader所在的物理机网络接口上。
-  * **集成 (Integration):** HCI服务需要能够配置VIP地址。MHA Agent需要权限执行VIP漂移操作，或调用外部脚本/API完成。
+  * **集成 (Integration):** 基础设施服务需要能够配置VIP地址。MHA Agent需要权限执行VIP漂移操作，或调用外部脚本/API完成。
 
 ## 5\. 接口定义 (Interface Definitions)
 
 系统各组件间的交互依赖于明确定义的接口。主要的Go语言接口将在代码层面详细定义，包括：
 
-  * **`MHA_Client_Interface` (HCI Software \<-\> MHA Client Lib):** HCI服务调用MHA Client库的接口。
+  * **`MHA_Client_Interface` (基础设施 Software \<-\> MHA Client Lib):** 基础设施服务调用MHA Client库的接口。
       * 例如：`GetLeader() (NodeInfo, error)`, `GetClusterStatus() (ClusterStatus, error)`, `RegisterChangeListener(listener StatusChangeListener)`
   * **`MHA_Agent_Interface` (MHA Client Lib \<-\> MHA Agent):** MHA Client库与MHA Agent（通常是gRPC）的通信接口。
       * 例如：`ReportStatus(NodeStatusInfo) error`, `GetNodeState() (NodeState, error)` (gRPC service methods)
@@ -146,15 +146,15 @@ VIP管理是实现服务接入高可用的关键。
 
 **流程说明:**
 
-1.  HCI服务通过VIP将数据库请求路由到当前的Leader节点（DB\_A）。
+1.  基础设施服务通过VIP将数据库请求路由到当前的Leader节点（DB\_A）。
 2.  DB\_A发生故障，其关联的MHA Agent A也可能受影响或检测到故障。
 3.  其他Follower节点的Agent（B和C）通过心跳机制检测到Leader A失联。
 4.  Agent B和C中的一个（或多个）发起Raft Leader选举。
 5.  假设Agent B赢得选举，成为新的Leader Agent。
 6.  Agent B协调将其关联的Vastbase实例DB\_B提升为Primary。
 7.  Agent B（或协调机制）更新VIP，使其指向DB\_B。
-8.  MHA Client Library检测到Leader变更（通过轮询或Agent的主动通知），并通知HCI服务。
-9.  HCI服务更新其数据库连接信息，后续请求通过VIP路由到新的Leader DB\_B。
+8.  MHA Client Library检测到Leader变更（通过轮询或Agent的主动通知），并通知基础设施服务。
+9.  基础设施服务更新其数据库连接信息，后续请求通过VIP路由到新的Leader DB\_B。
 
 ### 6.2. 维护Leader节点（手动切换）(Planned Maintenance of Leader Node)
 
@@ -170,7 +170,7 @@ VIP管理是实现服务接入高可用的关键。
 4.  Agent A触发Raft的Leader转移流程（如果Raft实现支持）或主动辞职，让其他节点（如B）选举成为新Leader。
 5.  Agent B成为新Leader后，将其Vastbase实例DB\_B提升为Primary。
 6.  Agent B更新VIP指向DB\_B。
-7.  MHA Client Library感知到Leader变化并通知HCI服务。
+7.  MHA Client Library感知到Leader变化并通知基础设施服务。
 8.  原Leader DB\_A完成降级，可以进行维护。
 
 ## 7\. 数据一致性 (Data Consistency)
@@ -183,7 +183,7 @@ VIP管理是实现服务接入高可用的关键。
   * **成员变更 (Membership Changes):** Raft协议支持安全的集群成员变更（增删节点），确保过程中集群的可用性和数据一致性。
   * **读一致性 (Read Consistency):**
       * 默认情况下，所有读请求都发送给Leader，保证强一致性（读到最新已提交数据）。
-      * 可考虑支持Follower读（需要HCI Client配合），但这可能导致读取到轻微过时的数据（最终一致性），适用于对一致性要求稍低的读场景。
+      * 可考虑支持Follower读（需要基础设施 Client配合），但这可能导致读取到轻微过时的数据（最终一致性），适用于对一致性要求稍低的读场景。
 
 ## 8\. DFX 考虑 (DFX Considerations)
 
@@ -215,12 +215,12 @@ VIP管理是实现服务接入高可用的关键。
   * **指标监控 (Metrics Monitoring):** 暴露关键性能指标（Prometheus格式），如Raft选举次数、日志复制延迟、Leader切换耗时、数据库连接数、API请求延迟等。
   * **分布式追踪 (Distributed Tracing):** （可选）为关键路径（如一次写请求到多副本提交）引入分布式追踪。
 
-## 9\. HCI 与 Vastbase 改造 (HCI and Vastbase Modifications)
+## 9\. 基础设施 与 Vastbase 改造 (基础设施 and Vastbase Modifications)
 
-### 9.1. HCI 自身业务需要改造的部分 (HCI Service Modifications)
+### 9.1. 基础设施 自身业务需要改造的部分 (基础设施 Service Modifications)
 
   * **MHA Client 集成 (MHA Client Integration):** 集成MHA Client库，调用其API。
-  * **VIP 管理适配 (VIP Management Adaptation):** HCI服务可能需要配置和感知VIP。
+  * **VIP 管理适配 (VIP Management Adaptation):** 基础设施服务可能需要配置和感知VIP。
   * **故障处理逻辑 (Failure Handling Logic):** 实现Leader切换时的连接重定向。
   * **健康检查集成 (Health Check Integration):** 利用MHA Client获取数据库健康状态。
   * **配置管理 (Configuration Management):** 动态处理数据库集群地址变化。
