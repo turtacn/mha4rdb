@@ -2,7 +2,7 @@
 
 ## 1. 引言 (Introduction)
 
-mha4rdb (Master High Availability for Relational Databases) 是一个旨在为关系型数据库提供高可用性解决方案的开源项目，初期重点支持Vastbase数据库。本项目主要面向超融合基础设施（基础设施 - Hyper-Converged Infrastructure）场景，解决其对配置信息持久化和一致性的核心需求。基础设施场景对数据一致性的要求极高，同时追求部署和管理的简单性。mha4rdb借鉴了现有成熟方案（如MHA4MySQL [3], Patroni [2], MySQL Group Replication [1]），并结合基础设施的特性，采用基于Raft一致性算法的分布式数据库集群和虚拟IP（VIP）漂移技术，提供一个简单、可靠、自动化的数据库高可用方案。
+mha4rdb (Master High Availability for Relational Databases) 是一个旨在为关系型数据库提供高可用性解决方案的开源项目，初期重点支持Vastbase数据库。本项目主要面向存算x架构基础设施（基础设施 - Hyper-Converged Infrastructure）场景，解决其对配置信息持久化和一致性的核心需求。基础设施场景对数据一致性的要求极高，同时追求部署和管理的简单性。mha4rdb借鉴了现有成熟方案（如MHA4MySQL [3], Patroni [2], MySQL Group Replication [1]），并结合基础设施的特性，采用基于Raft一致性算法的分布式数据库集群和虚拟IP（VIP）漂移技术，提供一个简单、可靠、自动化的数据库高可用方案。
 
 本文档详细阐述mha4rdb的总体架构设计、核心组件、模块交互、部署模型以及关键技术决策。
 
@@ -30,7 +30,7 @@ mha4rdb系统主要由以下组件构成：
 * **MHA Agent:** 部署在每个Vastbase节点上的代理程序，负责监控本地数据库状态、参与Raft集群管理、执行故障切换逻辑，并与基础设施服务通信。
 * **仲裁服务 (Quorum/Witness Service - Arbiter):** （可选）在双机部署时引入，防止脑裂。在三节点及以上Raft集群中，其功能由Raft协议自身保证。
 * **虚拟IP (Virtual IP - VIP):** 对基础设施服务提供统一的数据库访问入口，自动漂移到当前的Leader节点。
-* **基础设施 服务 (基础设施 Service):** 超融合基础设施的控制平面，依赖mha4rdb进行配置数据的持久化。
+* **基础设施 服务 (基础设施 Service):** 存算x架构基础设施的控制平面，依赖mha4rdb进行配置数据的持久化。
 * **MHA Client Library:** 集成在基础设施服务中的Go语言库，负责与MHA Agent集群进行通信，获取集群状态、Leader信息等。
 
 ### 3.2. 架构图 (Architecture Diagram)

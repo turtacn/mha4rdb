@@ -2,7 +2,7 @@
 
 ## 1. 项目概述
 
-mha4rdb（Master High Availability for Relational Database）是一个基于Go语言的开源项目，旨在为关系型数据库（如MySQL、PostgreSQL、OpenGaussDB和Vastbase等）提供高可用性管理解决方案。该项目借鉴了MySQL MHA、PostgreSQL Patroni等成熟开源项目的设计理念，同时结合了Raft一致性算法，为基础设施（超融合基础设施）场景下的数据库集群提供了简单、可靠、自动化的高可用性管理工具。
+mha4rdb（Master High Availability for Relational Database）是一个基于Go语言的开源项目，旨在为关系型数据库（如MySQL、PostgreSQL、OpenGaussDB和Vastbase等）提供高可用性管理解决方案。该项目借鉴了MySQL MHA、PostgreSQL Patroni等成熟开源项目的设计理念，同时结合了Raft一致性算法，为基础设施（存算x架构基础设施）场景下的数据库集群提供了简单、可靠、自动化的高可用性管理工具。
 
 ### 1.1 设计背景与目标
 
