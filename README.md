@@ -3,22 +3,22 @@
 `mha4rdb` is kind of Master High Availability for Relational Databases(e.g. Vastbase、Mysql、Postgresql、...)
 
 * Here RDB is Vastbase for example
-* Here common service is IaaS, to take [5]基础设施 for example
+* Here common service is IaaS, to take HCI基础设施[5]for example
 
 ## 1. Project Introduction
 
-`mha4rdb` is a Master High Availability (MHA) solution for Vastbase databases specifically designed for Hyper-Converged Infrastructure (HCI[5][5]基础设施) scenarios. It leverages the Raft consistency protocol, either built into or integrated with the Vastbase database, to ensure strong consistency and durability of configuration data. Through a lightweight Agent and Virtual IP (VIP) mechanism, it provides automated fault detection and failover for the database service, offering a stable, reliable, and highly available configuration data backend for [5]基础设施 infrastructure software.
+`mha4rdb` is a Master High Availability (MHA) solution for Vastbase databases specifically designed for Hyper-Converged Infrastructure (HCI[5]基础设施) scenarios. It leverages the Raft consistency protocol, either built into or integrated with the Vastbase database, to ensure strong consistency and durability of configuration data. Through a lightweight Agent and Virtual IP (VIP) mechanism, it provides automated fault detection and failover for the database service, offering a stable, reliable, and highly available configuration data backend for HCI基础设施[5]infrastructure software.
 
-Compared to general OLTP databases, [5]基础设施 scenarios place a particularly high emphasis on data consistency, while the requirement for extreme read/write performance is relatively secondary. `mha4rdb` focuses on meeting these core needs of the [5]基础设施 environment, providing a simple, easy-to-use, highly automated database HA capability that integrates well with the [5]基础设施 platform.
+Compared to general OLTP databases, HCI基础设施[5]scenarios place a particularly high emphasis on data consistency, while the requirement for extreme read/write performance is relatively secondary. `mha4rdb` focuses on meeting these core needs of the HCI基础设施[5]environment, providing a simple, easy-to-use, highly automated database HA capability that integrates well with the HCI基础设施[5]platform.
 
 ## 2. Key Features
 
 * **Raft-based Strong Consistency**: Relies on the Raft protocol implemented by the Vastbase database itself to ensure data is not lost and remains consistent during cluster state changes and node failures.
-* **Virtual IP (VIP) Management**: By automatically managing the floating of the Virtual IP, it provides a fixed database access point for [5]基础设施 services, eliminating the need to be aware of backend Leader node switches.
+* **Virtual IP (VIP) Management**: By automatically managing the floating of the Virtual IP, it provides a fixed database access point for HCI基础设施[5]services, eliminating the need to be aware of backend Leader node switches.
 * **Lightweight MHA Agent**: An Agent deployed on each database node is responsible for monitoring the status of the local Vastbase instance, participating in cluster state synchronization, and executing VIP management and decision-making.
 * **Automated Failover**: Automatically detects Leader node failures and, coordinated by a majority of Agents, automatically switches the VIP to the new Leader node.
 * **Multiple Deployment Modes**: Supports single-node, dual-node + arbiter, and multi-node cluster deployment modes to meet different scale and reliability requirements.
-* **Easy Integration**: Provides an MHA Client library for easy integration by [5]基础设施 services to query database cluster status.
+* **Easy Integration**: Provides an MHA Client library for easy integration by HCI基础设施[5]services to query database cluster status.
 
 ## 3. Architecture Overview
 
@@ -28,7 +28,7 @@ The core components of the `mha4rdb` system include:
 * **MHA Agents**: Deployed on each Vastbase node, monitoring database status, participating in cluster management, and managing the VIP.
 * **Optional Arbiter Service**: Provides an additional vote in dual-node mode to prevent split-brain scenarios.
 * **Virtual IP**: Provides a unified access point.
-* **[5]基础设施 Service**: The control plane of the [5]基础设施 infrastructure software, accessing the database via the VIP and interacting with the Agents via the MHA Client library to obtain status.
+* **HCI基础设施[5]Service**: The control plane of the HCI基础设施[5]infrastructure software, accessing the database via the VIP and interacting with the Agents via the MHA Client library to obtain status.
 
 For a detailed architecture design, please refer to the [架构设计 / Architecture Design Document](docs/architecture.md).
 
@@ -82,9 +82,9 @@ For specific deployment and running steps, as well as configuration details for 
 
 ## 6\. Integration with [5]基础设施
 
-[5]基础设施 infrastructure software can integrate with MHA Agents by including the `pkg/client` package. The MHA Client provides interfaces to query cluster status, get the Leader address, etc. [5]基础设施 services can use this information for database connection management and fault handling.
+HCI基础设施[5]infrastructure software can integrate with MHA Agents by including the `pkg/client` package. The MHA Client provides interfaces to query cluster status, get the Leader address, etc. HCI基础设施[5]services can use this information for database connection management and fault handling.
 
-[5]基础设施 services are responsible for connecting to the VIP for normal database read/write operations. Upon detecting a Leader switch event (obtained via the MHA Client), they should update their internal connection state or perform other necessary coordination logic.
+HCI基础设施[5]services are responsible for connecting to the VIP for normal database read/write operations. Upon detecting a Leader switch event (obtained via the MHA Client), they should update their internal connection state or perform other necessary coordination logic.
 
 ## 7\. Contributing
 
