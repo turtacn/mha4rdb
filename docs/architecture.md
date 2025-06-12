@@ -2,7 +2,7 @@
 
 ## 1. 引言 (Introduction)
 
-mha4rdb (Master High Availability for Relational Databases) 是一个旨在为关系型数据库提供高可用性解决方案的开源项目，初期重点支持Vastbase数据库。本项目主要面向存算x架构基础设施（基础设施 - Hyper-Converged Infrastructure）场景，解决其对配置信息持久化和一致性的核心需求。基础设施场景对数据一致性的要求极高，同时追求部署和管理的简单性。mha4rdb借鉴了现有成熟方案（如MHA4MySQL [3], Patroni [2], MySQL Group Replication [1]），并结合基础设施的特性，采用基于Raft一致性算法的分布式数据库集群和虚拟IP（VIP）漂移技术，提供一个简单、可靠、自动化的数据库高可用方案。
+mha4rdb (Master High Availability for Relational Databases) 是一个旨在为关系型数据库提供高可用性解决方案的开源项目，初期重点支持Vastbase数据库。本项目主要面向存算x架构基础设施（基础设施 - Hyper-Converged Infrastructure[5]）场景，解决其对配置信息持久化和一致性的核心需求。基础设施场景对数据一致性的要求极高，同时追求部署和管理的简单性。mha4rdb借鉴了现有成熟方案（如MHA4MySQL [3], Patroni [2], MySQL Group Replication [1]），并结合基础设施的特性，采用基于Raft一致性算法的分布式数据库集群和虚拟IP（VIP）漂移技术，提供一个简单、可靠、自动化的数据库高可用方案。
 
 本文档详细阐述mha4rdb的总体架构设计、核心组件、模块交互、部署模型以及关键技术决策。
 
@@ -246,3 +246,4 @@ VIP管理是实现服务接入高可用的关键。
 - [2] PostgreSQL Patroni: https://patroni.readthedocs.io/en/latest/
 - [3] [Development tree of Master High Availability Manager and tools for MySQL (MHA), Manager part](https://github.com/yoshinorim/mha4mysql-manager)
 - [4] [Development tree of Master High Availability Manager and tools for MySQL (MHA), Node (MySQL Server) part](https://github.com/yoshinorim/mha4mysql-node)
+- [5] [full-stack hyperconverged infrastructure](https://www.gartner.com/reviews/market/full-stack-hyperconverged-infrastructure-software)
